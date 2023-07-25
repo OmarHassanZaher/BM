@@ -61,7 +61,20 @@ class ConvertFragmentFragment : BaseFragment() {
             Resource.Status.LOADING -> {
             }
             Resource.Status.SUCCESS -> {
-
+                val conversionResponse = it.data
+                if (conversionResponse != null) {
+                    val rates = conversionResponse.rates
+                    val popularCurrencies = listOf("EUR", "GBP", "JPY", "AUD", "CAD", "CHF", "CNY", "HKD", "NZD", "SEK")
+                    val convertedRates = mutableListOf<Double>()
+                    for (currency in popularCurrencies) {
+                        val rate = rates?.getRate(currency)
+                        if (rate != null) {
+                            convertedRates.add(rate * amount)
+                        }
+                    }
+                    adapter.getConvertedRates(convertedRates)
+                    adapter.getPopularCurrencies(popularCurrencies)
+                }
             }
             Resource.Status.API_ERROR -> {
                 handleError(it.error_msg.toString())

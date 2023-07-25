@@ -11,7 +11,7 @@ data class HistoricalDataResponse(
     @SerializedName("historical")
     val historical: Boolean? = null,
     @SerializedName("rates")
-    val rates: Rates? = null,
+    val rates: Rates? = null, // <-- This line defines the rates property
     @SerializedName("success")
     val success: Boolean? = null,
     @SerializedName("timestamp")

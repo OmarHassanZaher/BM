@@ -12,27 +12,27 @@ import javax.inject.Inject
 
 class HistoricalDataAdapter @Inject constructor(
     @ApplicationContext val context: Context,
+    private val from: String?,
+    private val to: String?
+) : RecyclerView.Adapter<HistoricalDataAdapter.ViewHolder>() {
 
-    ) : RecyclerView.Adapter<HistoricalDataAdapter.ViewHolder>() {
     private lateinit var binding: DetailsItemBinding
-    private var historicalList: ArrayList<HistoricalDataResponse> = ArrayList()
+    private var ratesList: List<HistoricalDataResponse.Rates?> = emptyList()
 
     inner class ViewHolder(private val binding: DetailsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val from: String? =null
-        val to: String? = null
-        fun bind(item: HistoricalDataResponse) {
-
-            binding.apply {
-                dateTv.text = item.date
-                val fromRate = (item.rates as? Map<String, Double?>)?.getOrDefault(from, null)
-                val toRate = (item.rates as? Map<String, Double?>)?.getOrDefault(to, null)
+        fun bind(item: HistoricalDataResponse.Rates?) {
+            if (item != null) {
+                val fromRate = item.rates.get(from ?: "")
+                val toRate = item.rates.get(to ?: "")
                 if (fromRate != null && toRate != null) {
-                    rateTv.text = "${toRate} $to = ${fromRate} $from"
+                    binding.rateTv.text = "${toRate} $to = ${fromRate} $from"
                 } else {
-                    rateTv.text = "N/A"
+                    binding.rateTv.text = "N/A"
                 }
+            } else {
+                binding.rateTv.text = "N/A"
             }
         }
     }
@@ -46,18 +46,16 @@ class HistoricalDataAdapter @Inject constructor(
     }
 
     override fun onBindViewHolder(holder: HistoricalDataAdapter.ViewHolder, position: Int) {
-        holder.bind(historicalList[position])
+        holder.bind(ratesList.getOrNull(position))
         holder.setIsRecyclable(false)
     }
 
     override fun getItemCount(): Int {
-        return historicalList.size
+        return ratesList.size
     }
 
-    fun setData(list: List<HistoricalDataResponse>) {
-        if (this.historicalList.isNotEmpty())
-            this.historicalList.clear()
-        this.historicalList.addAll(list)
+    fun setData(list: List<HistoricalDataResponse.Rates?>) {
+        ratesList = list
         notifyDataSetChanged()
     }
 }

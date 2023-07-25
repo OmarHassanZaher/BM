@@ -17,6 +17,8 @@ data class ConversionResponse(
 ) {
 
     data class Rates(
+        val currency: String,
+        val rate: Double,
         @SerializedName("AUD")
         val aud: Double? = null,
         @SerializedName("CAD")
@@ -28,4 +30,16 @@ data class ConversionResponse(
         @SerializedName("USD")
         val usd: Double? = null
     )
+    {
+        fun getRate(currency: String): Double? {
+            return when (currency) {
+                "AUD" -> aud
+                "CAD" -> cad
+                "MXN" -> mxn
+                "PLN" -> pln
+                "USD" -> usd
+                else -> null
+            }
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.bm.bankmasrtask
 
-import android.view.LayoutInflater
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -9,7 +8,6 @@ import com.bm.bankmasrtask.databinding.FragmentDetailsBinding
 import com.bm.bankmasrtask.databinding.FragmentHomeBinding
 import com.bm.bankmasrtask.domain.entity.Resource
 import com.bm.bankmasrtask.presentation.details.DetailsFragment
-import com.bm.bankmasrtask.presentation.details.DetailsFragmentArgs
 import com.bm.bankmasrtask.presentation.details.adapter.HistoricalDataAdapter
 import com.bm.bankmasrtask.presentation.details.viewmodel.DetailsViewModel
 import com.bm.bankmasrtask.presentation.home.HomeFragment

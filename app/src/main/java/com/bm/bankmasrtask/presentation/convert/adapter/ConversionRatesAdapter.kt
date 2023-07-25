@@ -15,13 +15,16 @@ class ConversionRatesAdapter @Inject constructor(
 
     private lateinit var binding: ConvertItemBinding
     private val convertList: MutableList<ConversionResponse.Rates?> = mutableListOf()
+    private var popularCurrencies: List<String> = emptyList()
+    private var convertedRates: List<Double> = emptyList()
 
     inner class ViewHolder(private val binding: ConvertItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ConversionResponse.Rates?) {
             binding.apply {
-
+                currencyCodeTv.text = item?.currency
+                convertedRateTv.text = item?.rate.toString()
             }
         }
     }
@@ -43,9 +46,24 @@ class ConversionRatesAdapter @Inject constructor(
         return convertList.size
     }
 
-    fun setData(list: List<ConversionResponse.Rates?>) {
+    fun setData(
+        list: List<ConversionResponse.Rates?>,
+        popularCurrencies: List<String>,
+        convertedRates: List<Double>
+    ) {
         convertList.clear()
         convertList.addAll(list)
+        this.popularCurrencies = popularCurrencies
+        this.convertedRates = convertedRates
         notifyDataSetChanged()
     }
+
+    fun getPopularCurrencies(popularCurrencies: List<String>): List<String> {
+        return this.popularCurrencies
+    }
+
+    fun getConvertedRates(convertedRates: MutableList<Double>): List<Double> {
+        return this.convertedRates
+    }
+
 }
